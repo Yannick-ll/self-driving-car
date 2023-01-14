@@ -1,3 +1,5 @@
+# Many thanks to https://raspberry-lab.fr/Composants/Module-L298N-controleur-moteur-Raspberry-Francais/
+
 import RPi.GPIO as GPIO
 from time import sleep
 import logging
