@@ -7,7 +7,7 @@ Start small (robotics activity with my 5 years-old child), grow slowly (remotly 
 ### Un peu de lecture (facultative)
 1. Article de 2015 du journal Le Monde sur le raspberry : [lien](https://www.lemonde.fr/blog/binaire/2015/12/28/raspberry-pi-la-petite-histoire-dune-grande-idee/)
 2. Court explicatif de ce qu'est un contrôlleur L298N : [lien](https://arduino.blaisepascal.fr/pont-en-h-l298n/)
-3. Quelques concepts sur la reconnaissance d'image en Computer Vision, le coeur de notre système de navigation : [lien](https://deepomatic.com/fr/quest-ce-que-la-reconnaissance-dimage)
+3. Quelques concepts sur la reconnaissance d'image en Computer Vision, le coeur de notre système de navigation autonome : [lien](https://deepomatic.com/fr/quest-ce-que-la-reconnaissance-dimage)
 
 
 ### Matériel nécessaire
