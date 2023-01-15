@@ -6,7 +6,7 @@ Start small (robotics activity with my 5 years-old child), grow slowly (remotly 
 
 ### Matériel nécessaire
 1. Un chassis avec 2 roues motrices : [lien](https://www.amazon.fr/dp/B01LW6A2YU?psc=1&ref=ppx_yo2ov_dt_b_product_details).
-2. Un controller L298N : [lien](https://www.amazon.fr/dp/B07YXFQ8CZ?psc=1&ref=ppx_yo2ov_dt_b_product_details). J'en ai acheté 2 par mesure de précaution, et en prévision d'un futur projet.
+2. Un controlleur L298N : [lien](https://www.amazon.fr/dp/B07YXFQ8CZ?psc=1&ref=ppx_yo2ov_dt_b_product_details). J'en ai acheté 2 par mesure de précaution, et en prévision d'un futur projet.
 3. Un lot de 4 piles AA pour alimenter le L298N : [lien](https://www.amazon.fr/dp/B00HZV9TGS?ref=ppx_yo2ov_dt_b_product_details&th=1).
 4. Un lot de câbles Dupont : [lien](https://www.amazon.fr/dp/B01JD5WCG2?psc=1&ref=ppx_yo2ov_dt_b_product_details). Véillez à avoir des mâle<->mâle, des femelle<->femelle et des mâle<->femelle. 
 5. Un rapsberry pi 3B+ 1GB : [Lien](https://www.kubii.fr/cartes-raspberry-pi/2119-raspberry-pi-3-modele-b-1-gb-kubii-652508442174.html?src=raspberrypi). Vous pouvez opter pour un modèle plus récent si vous le souhaitez.
