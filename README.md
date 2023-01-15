@@ -50,7 +50,7 @@ Scénario simple : identifier un objet sur une scène
 ### 4.5. Entrainement et test
 
 
-## 5. Préparation des commandes de pilotage par l'IA
+## 5. Préparation des commandes de pilotage des roues motrice par l'IA
 Scénario simple : poursuite d'une cible dans le champ de vision
 
 
