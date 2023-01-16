@@ -43,7 +43,7 @@ Scénario simple : identifier un objet sur une scène
 
 ### 3.3. Annotation des données
 
-### 3.5. Préparation du moteur d'entrainement
+### 3.4. Préparation du moteur d'entrainement
 
 ### 3.5. Entrainement et test
 
