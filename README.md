@@ -6,14 +6,14 @@ Start small (robotics activity with my 5 years-old child), grow slowly (remotly 
 
 ## 1. Pour commencer
 
-### Un peu de lecture (facultative)
+### 1.1. Un peu de lecture (facultative)
 Voici un peu de documentation pour se mettre dans le bain, si vous n'êtes pas déjà familier des différentes notions abordées dans ce repository.
 1. Article de 2015 du journal Le Monde sur le raspberry : [lien](https://www.lemonde.fr/blog/binaire/2015/12/28/raspberry-pi-la-petite-histoire-dune-grande-idee/)
 2. Court explicatif de ce qu'est un contrôlleur L298N : [lien](https://arduino.blaisepascal.fr/pont-en-h-l298n/)
 3. Quelques concepts sur la reconnaissance d'image en Computer Vision, le coeur de notre système de navigation autonome : [lien](https://deepomatic.com/fr/quest-ce-que-la-reconnaissance-dimage)
 
 
-### 2. Matériel nécessaire
+### 1.2. Matériel nécessaire
 1. Un chassis avec 2 roues motrices : [lien](https://www.amazon.fr/dp/B01LW6A2YU?psc=1&ref=ppx_yo2ov_dt_b_product_details).
 2. Un controlleur L298N : [lien](https://www.amazon.fr/dp/B07YXFQ8CZ?psc=1&ref=ppx_yo2ov_dt_b_product_details). J'en ai acheté 2 par mesure de précaution, et en prévision d'un futur projet.
 3. Un lot de 4 piles AA pour alimenter le L298N : [lien](https://www.amazon.fr/dp/B00HZV9TGS?ref=ppx_yo2ov_dt_b_product_details&th=1).
@@ -37,9 +37,9 @@ Voici un peu de documentation pour se mettre dans le bain, si vous n'êtes pas d
 
 ## 4. Préparation de l'IA pour la reconnaissance d'image
 Scénario simple : identifier un objet sur une scène
-### 4.1 Collecte des données
+### 4.1. Collecte des données
 
-### 4.2 Nettoyage des données
+### 4.2. Nettoyage des données
 
 ### 4.3. Annotation des données
 
