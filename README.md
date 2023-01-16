@@ -37,15 +37,13 @@ Voici un peu de documentation pour se mettre dans le bain, si vous n'êtes pas d
 
 ## 4. Préparation de l'IA pour la reconnaissance d'image
 Scénario simple : identifier un objet sur une scène
-### Collecte des données
+### 4.1 Collecte des données
 
-### 4.1 Nettoyage des données
+### 4.2 Nettoyage des données
 
-### 4.2. Annotation des données
+### 4.3. Annotation des données
 
-### 4.3. Préparation du moteur d'entrainement
-
-### 4.4. Entrainement et test
+### 4.5. Préparation du moteur d'entrainement
 
 ### 4.5. Entrainement et test
 
