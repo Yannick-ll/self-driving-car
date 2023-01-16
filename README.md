@@ -26,29 +26,29 @@ Voici un peu de documentation pour se mettre dans le bain, si vous n'êtes pas d
 10. Un pistolet à colle ou de la super glue
 11. Un rouleau adhésif d'isolation électrique : [lien](https://www.leroymerlin.fr/produits/electricite-domotique/rallonge-multiprise-enrouleur-et-cable-electrique/accessoires-de-connexion-boite-de-derivation/accessoires-de-electricite/ruban-adhesif-l-10-m-x-l-19-mm-noir-75361223.html)
 
-## 3. Assemblage
+## 2. Assemblage
 
-### 3.1. Installation de l'OS sur le raspberry
+### 2.1. Installation de l'OS sur le raspberry
 
-### 3.2. Chassis
+### 2.2. Chassis
 
-### 3.3. Premier test
+### 2.3. Premier test
 
 
-## 4. Préparation de l'IA pour la reconnaissance d'image
+## 3. Préparation de l'IA pour la reconnaissance d'image
 Scénario simple : identifier un objet sur une scène
-### 4.1. Collecte des données
+### 3.1. Collecte des données
 
-### 4.2. Nettoyage des données
+### 3.2. Nettoyage des données
 
-### 4.3. Annotation des données
+### 3.3. Annotation des données
 
-### 4.5. Préparation du moteur d'entrainement
+### 3.5. Préparation du moteur d'entrainement
 
-### 4.5. Entrainement et test
+### 3.5. Entrainement et test
 
 
-## 5. Préparation des commandes de pilotage des roues motrices par l'IA
+## 4. Préparation des commandes de pilotage des roues motrices par l'IA
 Scénario simple : poursuite d'une cible dans le champ de vision
 
 
