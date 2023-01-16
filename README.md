@@ -24,7 +24,7 @@ Voici un peu de documentation pour se mettre dans le bain, si vous n'êtes pas d
 8. Quelque morceaux de carton. Une surface totale maximum de 30 cm par 30 cm.
 9. Trois ou quatre élastiques
 10. Un pistolet à colle ou de la super glue
-11. Un rouleau adhésif d'isolation électrique
+11. Un rouleau adhésif d'isolation électrique : [lien](https://www.leroymerlin.fr/produits/electricite-domotique/rallonge-multiprise-enrouleur-et-cable-electrique/accessoires-de-connexion-boite-de-derivation/accessoires-de-electricite/ruban-adhesif-l-10-m-x-l-19-mm-noir-75361223.html)
 
 ## 3. Assemblage
 
