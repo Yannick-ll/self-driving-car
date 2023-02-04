@@ -29,13 +29,14 @@ Voici un peu de documentation pour se mettre dans le bain, si vous n'êtes pas d
 ## 2. Assemblage
 
 ### 2.1. Installation de l'OS Ubuntu Server sur le raspberry
-Vous pouvez suivre cet excellent tutoriel : [lien](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview). A l'heure actuelle, la dernière version officielle est Ubuntu 22.04 LTS server. N'oubliez à l'étape 3:
+Vous pouvez suivre cet excellent tutoriel : [lien](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview). A l'heure actuelle, la dernière version officielle est Ubuntu 22.04 LTS server. N'oubliez pas à l'étape 3:
 - de paramétrer le hostname. Dans mon cas, j'ai choisi "jarvis" ;
 - d'activer le ssh avec authentification par mot de pass ;
 - de créer un utilisateur (ex : "javis") et de lui affecter un mot de pass ;
-- [IMPORTANT] de configurer la connexion wifi. Comme celà, à chaque démarrage de la raspberry, celle-ci se connectera directement à votre réseau ;
+- [IMPORTANT] de configurer la connexion wifi. Comme celà, à chaque démarrage du raspberry, celui-ci se connectera directement à votre réseau ;
 
 ### 2.2. Chassis
+Le véhicule acheté étant fourni avec un schéma de montage minimaliste, je suis tombé sur cette vidéo après une petite heure de recherche : [lien](https://www.youtube.com/watch?v=Bp9r9TGpWOk&ab_channel=PatreeceEichel). L'idée de faire une "chaise" pour le contrôleur des roues est ingénieuse. Arrêtez vous à 13'40'', car la suite concerne le câblage entre le raspberry et le contrôleur. Vous pouvez bien évidemment suivre le turiel vidéo jusqu'au bout et tester le code source proposé, mais le câblage utilisé ici est légèrement différent. Référez-vous plutôt au fichier "Schema-Branchement-Raspberry-Model.3-L298N.png"
 
 ### 2.3. Premier test
 
