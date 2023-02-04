@@ -32,7 +32,7 @@ Voici un peu de documentation pour se mettre dans le bain, si vous n'êtes pas d
 Vous pouvez suivre cet excellent tutoriel : [lien](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview). A l'heure actuelle, la dernière version officielle est Ubuntu 22.04 LTS server. N'oubliez pas à l'étape 3:
 - de paramétrer le hostname. Dans mon cas, j'ai choisi "jarvis" ;
 - d'activer le ssh avec authentification par mot de pass ;
-- de créer un utilisateur (ex : "javis") et de lui affecter un mot de pass ;
+- de créer un utilisateur (ex : "jarvis") et de lui affecter un mot de pass ;
 - [IMPORTANT] de configurer la connexion wifi. Comme celà, à chaque démarrage du raspberry, celui-ci se connectera directement à votre réseau ;
 
 ### 2.2. Chassis
