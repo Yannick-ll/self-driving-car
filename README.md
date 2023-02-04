@@ -36,7 +36,7 @@ Vous pouvez suivre cet excellent tutoriel : [lien](https://ubuntu.com/tutorials/
 - [IMPORTANT] de configurer la connexion wifi. Comme celà, à chaque démarrage du raspberry, celui-ci se connectera directement à votre réseau ;
 
 ### 2.2. Chassis
-Le véhicule acheté étant fourni avec un schéma de montage minimaliste, je suis tombé sur cette vidéo après une petite heure de recherche : [lien](https://www.youtube.com/watch?v=Bp9r9TGpWOk&ab_channel=PatreeceEichel). L'idée de faire une "chaise" pour le contrôleur des roues est ingénieuse. Arrêtez vous à 13'40'', car la suite concerne le câblage entre le raspberry et le contrôleur. Vous pouvez bien évidemment suivre le turiel vidéo jusqu'au bout et tester le code source proposé, mais le câblage utilisé ici est légèrement différent. Référez-vous plutôt au fichier [Schema-Branchement-Raspberry-Model.3-L298N.png](https://github.com/Yannick-ll/self-driving-car/blob/main/howto/Schema-Branchement-Raspberry-Model.3-L298N.png)
+Le véhicule acheté étant fourni avec un schéma de montage minimaliste, je suis tombé sur cette vidéo après une petite heure de recherche : [lien](https://www.youtube.com/watch?v=Bp9r9TGpWOk&ab_channel=PatreeceEichel). L'idée de faire une "chaise" pour le contrôleur des roues est ingénieuse. Sautez tout ce qui est entre 13'40" et 15'54", car cela concerne le câblage entre le raspberry et le contrôleur. Vous pouvez bien évidemment suivre la vidéo à la lettre et tester le code source proposé, mais le câblage utilisé ici est légèrement différent. Référez-vous plutôt au fichier [Schema-Branchement-Raspberry-Model.3-L298N.png](https://github.com/Yannick-ll/self-driving-car/blob/main/howto/Schema-Branchement-Raspberry-Model.3-L298N.png)
 
 ### 2.3. Premier test
 
