@@ -54,6 +54,7 @@ public:
     cv::Mat & getInferenceResult();
     nlohmann::json & getJsonResult();
 private:
+    std::vector<std::string> class_list ;
     cv::Mat m_frame;
     //std::condition_variable m_frameCondition;
     cv::Mat m_inferenceResult;

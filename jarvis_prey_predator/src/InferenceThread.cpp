@@ -44,6 +44,7 @@ InferenceThread::InferenceThread( Ort::Experimental::Session& session, bool &use
 }
 
 void InferenceThread::startInference() {
+    class_list = load_class_list();
     std::vector<std::string> input_names = m_session.GetInputNames();
     std::vector<std::vector < int64_t>> input_shapes = m_session.GetInputShapes();
     while (true) {
@@ -83,12 +84,13 @@ void InferenceThread::startInference() {
                         std::cout<< "detection.classId: " << detection.classId << "\n";
                         std::cout<< "detection.conf: " << detection.conf << "\n";
                         std::cout<< "detection.box: " << detection.box << "\n";
-                        // isBondingBoxCentered(class_list, detection, frame);
+                        isBondingBoxCentered(class_list, detection, frame);
                     }
-                    // cv::Mat imageDisplayResized;
-                    // cv::resize(frame, imageDisplayResized, cv::Size(image.size().width*scaleWriteVideo, frame.size().height*scaleWriteVideo));
-                    // cv::imshow("imageDisplayResized", imageDisplayResized);
-                    // cv::waitKey(10);
+                    float scaleWriteVideo = 0.5;
+                    cv::Mat imageDisplayResized;
+                    cv::resize(frame, imageDisplayResized, cv::Size(frame.size().width*scaleWriteVideo, frame.size().height*scaleWriteVideo));
+                    //cv::imshow("imageDisplayResized", imageDisplayResized);
+                    //cv::waitKey(10);
                     // // Write the frame into the file 'outcpp.avi'
                     //video.write(imageDisplayResized);
                 }
