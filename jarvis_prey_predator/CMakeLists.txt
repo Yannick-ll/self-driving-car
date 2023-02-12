@@ -6,9 +6,6 @@ set(${APP_NAME}_VERSION_MINOR 0)
 set(${APP_NAME}_VERSION_PATCH 0)
 set(APP_VERSION ${${APP_NAME}_VERSION_MAJOR}.${${APP_NAME}_VERSION_MINOR}.${${APP_NAME}_VERSION_PATCH})
 
-#    SET(CMAKE_CXX_COMPILER "g++-8")
-#    SET(CMAKE_CXX_FLAGS "-std=c++11")
-
 ### CMAKE HEADERS/OPTIONS
 if (${CMAKE_VERSION} VERSION_GREATER 3.0.0)
     cmake_policy(SET CMP0048 NEW)
@@ -21,12 +18,25 @@ endif (${CMAKE_VERSION} VERSION_GREATER 3.0.0)
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR) # min. cmake version recommended 
 message("CMAKE_PROJECT_NAME = ${CMAKE_PROJECT_NAME}") 
 
+### OPENCV
 set(VERSION_OPENCV 4.5.4 ) # 3.4.2 # 4.0.1 4.5.4
 SET(OpenCV_DIR /home/deploy/lib/opencv/opencv-${VERSION_OPENCV}/build)
 
-set(CMAKE_CXX_STANDARD 11)
+### ONNX
+SET(onnxinclude /home/jarvis/lib/onnxruntime/include/)
+list(APPEND CMAKE_MODULE_PATH "/home/jarvis/lib/onnxruntime/")
+SET(onnxlib 
+    /home/jarvis/lib/onnxruntime/build/Linux/RelWithDebInfo/libonnxruntime_providers_shared.so
+    /home/jarvis/lib/onnxruntime/build/Linux/RelWithDebInfo/libcustom_op_library.so
+    /home/jarvis/lib/onnxruntime/build/Linux/RelWithDebInfo/libcustom_op_invalid_library.so
+    /home/jarvis/lib/onnxruntime/build/Linux/RelWithDebInfo/libtest_execution_provider.so
+    /home/jarvis/lib/onnxruntime/build/Linux/RelWithDebInfo/libonnxruntime.so
+)
+
+set(CMAKE_CXX_STANDARD 17)
 
 find_package(OpenCV REQUIRED)
+find_package(onnxruntime REQUIRED)
 
 set(INCLUDE_DIRS  
     ./include/
@@ -43,10 +53,15 @@ set(SRC_FILES
 
 set(LIBS_AND_FLAGS 
     ${OpenCV_LIBS}
-    -lpthread  -no-pie
+    ${onnxlib}
+    -lpthread  
+    -no-pie
 )
 
-include_directories(${INCLUDE_DIRS})
+include_directories(
+    ${INCLUDE_DIRS}
+    ${onnxinclude}
+)
 
 add_definitions(-DOPENCV)
 

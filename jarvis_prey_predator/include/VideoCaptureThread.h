@@ -14,12 +14,13 @@
 #define VIDEOCAPTURETHREAD_H
 
 #include "Includes.h"
+#include "InferenceThread.h"
 
 class VideoCaptureThread
 {
 public:
-  VideoCaptureThread(cv::VideoCapture& videoCapture)
-    : m_videoCapture(videoCapture)
+  VideoCaptureThread(cv::VideoCapture& videoCapture, InferenceThread& inferenceThread)
+    : m_videoCapture(videoCapture), m_inferenceThread(inferenceThread)
   {
   }
 
@@ -29,6 +30,7 @@ public:
 
 private:
   cv::VideoCapture& m_videoCapture;
+  InferenceThread& m_inferenceThread;
   cv::Mat m_frame;
 };
 

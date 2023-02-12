@@ -15,6 +15,16 @@
 
 #include <opencv2/opencv.hpp>
 #include "json.hpp"
+#include <thread>
+//onnx
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
+#include <vector>
+#include <assert.h>
+#include <chrono>
+#include <onnxruntime/core/session/experimental_onnxruntime_cxx_api.h>
 
 #endif /* INCLUDES_H */
 

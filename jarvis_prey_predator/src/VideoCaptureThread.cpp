@@ -11,6 +11,7 @@ void VideoCaptureThread::startCapture() {
         if (!m_videoCapture.read(frame))
             break;
         m_frame = frame;
+        m_inferenceThread.setFrame(frame);
     }
 }
 
