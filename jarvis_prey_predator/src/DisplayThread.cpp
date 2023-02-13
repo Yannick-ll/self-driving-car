@@ -7,7 +7,7 @@
 
 void DisplayThread::startDisplay() {
     while (true) {
-        if (!m_frame.empty()) {
+        if (!m_frame.empty() && m_frame.size().height > 0 && m_frame.size().width > 0) {
             cv::imshow(m_title, m_frame);
             if (cv::waitKey(5) == 27)
                 break;

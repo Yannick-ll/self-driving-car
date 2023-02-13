@@ -17,14 +17,19 @@
 
 class ActionThread {
 public:
-    ActionThread(cv::Mat& inferenceResult, nlohmann::json & m_jsonResult)
+    ActionThread(bool &UseThisDummyValueOtherwhileItDoesNotCompile):
+    UseThisDummyValueOtherwhileItDoesNotCompile(UseThisDummyValueOtherwhileItDoesNotCompile){
+    }
+    /*ActionThread(cv::Mat& inferenceResult, nlohmann::json & m_jsonResult)
     : m_inferenceResult(inferenceResult),
     m_jsonResult(m_jsonResult){
-    }
+    }*/
     void startAction();
+    void setJsonAction(const nlohmann::json & jsonAction);
 private:
-    cv::Mat& m_inferenceResult;
-    nlohmann::json & m_jsonResult;
+    bool & UseThisDummyValueOtherwhileItDoesNotCompile;
+    nlohmann::json m_jsonAction;
+    std::mutex m_jsonActionMutex;
 };
 
 

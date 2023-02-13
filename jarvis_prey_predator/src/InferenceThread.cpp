@@ -5,8 +5,8 @@
 
 #include "InferenceThread.h"
 
-InferenceThread::InferenceThread( Ort::Experimental::Session& session, bool &useGPU)
-:m_session(session), useGPU(useGPU){
+InferenceThread::InferenceThread( Ort::Experimental::Session& session, bool &useGPU, ActionThread& m_actionThread)
+:m_session(session), useGPU(useGPU), m_actionThread(m_actionThread){
     // print name/shape of inputs
     std::vector<std::string> input_names = session.GetInputNames();
     std::vector<std::vector < int64_t>> input_shapes = session.GetInputShapes();
@@ -52,7 +52,7 @@ void InferenceThread::startInference() {
             //m_frameCondition.wait(lock, [&]{return !m_frame.empty();});
             cv::Mat frame = m_frame.clone();
             lock_frameMutex.unlock();
-            
+        cv::Mat imageDisplayResized;
         if(!frame.empty()){
             //std::cout << "!m_frame.empty()" << std::endl;
             int l_Number = 1;
@@ -81,13 +81,13 @@ void InferenceThread::startInference() {
                 if (detections.size() > 0) {
                     for (int i = 0; i < detections.size(); ++i) {
                         auto detection = detections[i];
-                        std::cout<< "detection.classId: " << detection.classId << "\n";
-                        std::cout<< "detection.conf: " << detection.conf << "\n";
-                        std::cout<< "detection.box: " << detection.box << "\n";
+                        //std::cout<< "detection.classId: " << detection.classId << "\n";
+                        //std::cout<< "detection.conf: " << detection.conf << "\n";
+                        //std::cout<< "detection.box: " << detection.box << "\n";
                         isBondingBoxCentered(class_list, detection, frame);
                     }
                     float scaleWriteVideo = 0.5;
-                    cv::Mat imageDisplayResized;
+                    //cv::Mat imageDisplayResized;
                     cv::resize(frame, imageDisplayResized, cv::Size(frame.size().width*scaleWriteVideo, frame.size().height*scaleWriteVideo));
                     //cv::imshow("imageDisplayResized", imageDisplayResized);
                     //cv::waitKey(10);
@@ -110,11 +110,14 @@ void InferenceThread::startInference() {
         // Perform inference on m_frame        
         // Lock the mutex before accessing m_inferenceResult
         std::unique_lock<std::mutex> lock_m_inferenceResult(m_mutex);
-        m_inferenceResult = inferenceResult;
+        m_inferenceResult = imageDisplayResized;
         lock_m_inferenceResult.unlock();
         std::unique_lock<std::mutex> lock2(m_mutex);
         m_jsonResult = "{\"output\" : \"racecar\", \"confidence\" : 0.8}";   
         lock2.unlock();
+        //--
+        nlohmann::json m_jsonAction = "{\"output\" : \"racecar\", \"confidence\" : 0.8, \"action\" : \"LEFT\"}";
+        m_actionThread.setJsonAction(m_jsonAction);
     }
 }
 

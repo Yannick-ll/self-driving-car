@@ -48,16 +48,18 @@ int main(int argc, char** argv) {
     } else {
         // session_options.SetIntraOpNumThreads(12);
     }
+    bool UseThisDummyValueOtherwhileItDoesNotCompile = true;
     
-
+    ActionThread actionThread(UseThisDummyValueOtherwhileItDoesNotCompile);
     Ort::Experimental::Session session = Ort::Experimental::Session(env, model_file, session_options); // access experimental components via the Experimental namespace
 
-    InferenceThread inferenceThread( session, useGPU);
+    InferenceThread inferenceThread( session, useGPU, actionThread);
     
     cv::VideoCapture videoCapture("/home/deploy/app/homeandfamily/self-driving-car/database/videos/VID_20221227_094455.mp4");
     VideoCaptureThread videoCaptureThread(videoCapture, inferenceThread);
     
-    ActionThread actionThread(inferenceThread.getInferenceResult(), inferenceThread.getJsonResult());
+    //ActionThread actionThread(inferenceThread.getInferenceResult(), inferenceThread.getJsonResult());
+    //DisplayThread displayThread(inferenceThread.getInferenceResult(), "prey predator");
     DisplayThread displayThread(videoCaptureThread.getFrame(), "prey predator");
 
     std::thread videoCaptureThreadHandle(

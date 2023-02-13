@@ -14,6 +14,7 @@
 #define INFERENCETHREAD_H
 
 #include "Includes.h"
+#include "ActionThread.h"
 
 struct Detection {
     cv::Rect box;
@@ -28,7 +29,7 @@ T clip(const T& n, const T& lower, const T& upper) {
 
 class InferenceThread {
 public:
-    InferenceThread(Ort::Experimental::Session& session, bool &useGPU);
+    InferenceThread(Ort::Experimental::Session& session, bool &useGPU, ActionThread& m_actionThread);
     
     void startInference();
     cv::Rect2f scaleCoords(const cv::Size& imageShape, cv::Rect2f coords, const cv::Size& imageOriginalShape, bool p_Clip) ;
@@ -54,6 +55,7 @@ public:
     cv::Mat & getInferenceResult();
     nlohmann::json & getJsonResult();
 private:
+    ActionThread& m_actionThread;
     std::vector<std::string> class_list ;
     cv::Mat m_frame;
     //std::condition_variable m_frameCondition;
