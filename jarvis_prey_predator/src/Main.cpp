@@ -1,24 +1,9 @@
 #include <thread>
 
-#include "VideoCaptureThread.h"
-#include "DisplayThread.h"
-#include "InferenceThread.h"
-#include "ActionThread.h"
-
-std::vector<std::string> load_class_list() {
-    std::vector<std::string> class_list;
-    std::ifstream ifs("/home/jarvis/app/jarvis_yolov5/racecar.names"); //("config_files/classes.txt");
-    std::string line;
-    while (getline(ifs, line)) {
-        class_list.push_back(line);
-    }
-    return class_list;
-}
+#include "Inference.h"
+#include "Action.h"
 
 int main(int argc, char** argv) {
-
-    std::vector<std::string> class_list = load_class_list();
-
     bool useGPU = false;
     std::string l_GpuOption = "CPU" ; //(argv[3]);
     std::transform(l_GpuOption.begin(), l_GpuOption.end(), l_GpuOption.begin(), [](unsigned char c) {
@@ -48,44 +33,60 @@ int main(int argc, char** argv) {
     } else {
         // session_options.SetIntraOpNumThreads(12);
     }
-    bool UseThisDummyValueOtherwhileItDoesNotCompile = true;
+
     
-    ActionThread actionThread(UseThisDummyValueOtherwhileItDoesNotCompile);
     Ort::Experimental::Session session = Ort::Experimental::Session(env, model_file, session_options); // access experimental components via the Experimental namespace
 
-    InferenceThread inferenceThread( session, useGPU, actionThread);
     
+    Inference inference( session, useGPU );
+    Action action;
+    
+        
     cv::VideoCapture videoCapture("/home/deploy/app/homeandfamily/self-driving-car/database/videos/VID_20221227_094455.mp4");
-    VideoCaptureThread videoCaptureThread(videoCapture, inferenceThread);
+    videoCapture.set(cv::CAP_PROP_FPS, 10);
+
+    // Default resolutions of the frame are obtained.The default resolutions are system dependent.
+    int frame_width = videoCapture.get(cv::CAP_PROP_FRAME_WIDTH);
+    int frame_height = videoCapture.get(cv::CAP_PROP_FRAME_HEIGHT);
+    // Define the codec and create VideoWriter object.The output is stored in 'outcpp.avi' file.
+    float scaleWriteVideo = 0.5;
+    cv::VideoWriter video("outcpp.avi", cv::VideoWriter::fourcc('M','J','P','G'), 10, cv::Size(frame_width*scaleWriteVideo,frame_height*scaleWriteVideo));
+
     
-    //ActionThread actionThread(inferenceThread.getInferenceResult(), inferenceThread.getJsonResult());
-    //DisplayThread displayThread(inferenceThread.getInferenceResult(), "prey predator");
-    DisplayThread displayThread(videoCaptureThread.getFrame(), "prey predator");
+    cv::Mat image;
+    
+    while (true) {
+        videoCapture.read(image);
+        if (image.empty()) {
+            std::cout << "End of stream\n";
+            break;
+        }
+        
+        auto startTime = std::chrono::steady_clock::now();
+        
+        inference.setFrame(image);
+        inference.startInference();
+        video.write(inference.getInferenceResult().clone());
+        action.setJsonAction(inference.getJsonResult());
+        action.startAction();        
+        
+        auto endTime = std::chrono::steady_clock::now();
+        std::chrono::duration<double> elapsedTime = endTime - startTime;
+        
+        if(!inference.getInferenceResult().empty()){
+            cv::imshow("imageDisplayResized", inference.getInferenceResult());
+            cv::waitKey(10);
+        }
 
-    std::thread videoCaptureThreadHandle(
-            &VideoCaptureThread::startCapture,
-            &videoCaptureThread
-            );
+        if (cv::waitKey(1) != -1) {
+            videoCapture.release();
+            video.release();
+            cv::destroyAllWindows();
+            std::cout << "finished by user\n";
+            break;
+        }
+    }
 
-    std::thread inferenceThreadHandle(
-            &InferenceThread::startInference,
-            &inferenceThread
-    );
-
-    std::thread actionThreadHandle(
-            &ActionThread::startAction,
-            &actionThread
-            );
-
-    std::thread displayThreadHandle(
-            &DisplayThread::startDisplay,
-            &displayThread
-            );
-
-    videoCaptureThreadHandle.join();
-    inferenceThreadHandle.join();
-    actionThreadHandle.join();
-    displayThreadHandle.join();
 
     return 0;
 }

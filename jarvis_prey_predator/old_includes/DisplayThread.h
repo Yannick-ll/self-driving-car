@@ -17,12 +17,15 @@
 
 class DisplayThread {
 public:
-    DisplayThread(cv::Mat& frame, std::string title)
-    : m_frame(frame), m_title(title) {
+    DisplayThread(bool &UseThisAnotherDummyValueOtherwhileItDoesNotCompile, std::string title)
+    : UseThisAnotherDummyValueOtherwhileItDoesNotCompile(UseThisAnotherDummyValueOtherwhileItDoesNotCompile), m_title(title) {
     }
     void startDisplay();
+    void setFrame(const cv::Mat& frame);
 private:
-    cv::Mat& m_frame;
+    bool & UseThisAnotherDummyValueOtherwhileItDoesNotCompile;
+    cv::Mat m_frame;
+    std::mutex m_frameMutex;
     std::string m_title;
 };
 

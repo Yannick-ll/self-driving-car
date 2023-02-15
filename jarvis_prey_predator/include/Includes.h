@@ -26,5 +26,6 @@
 #include <chrono>
 #include <onnxruntime/core/session/experimental_onnxruntime_cxx_api.h>
 
+#include "Timer.h"
 #endif /* INCLUDES_H */
 

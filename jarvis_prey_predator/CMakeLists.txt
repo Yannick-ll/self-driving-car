@@ -43,12 +43,18 @@ set(INCLUDE_DIRS
     ${OpenCV_DIR}
 )
 
+# set(SRC_FILES  
+#     ./src/Main.cpp
+#     ./src/VideoCaptureThread.cpp
+#     ./src/InferenceThread.cpp
+#     ./src/DisplayThread.cpp
+#     ./src/ActionThread.cpp
+# )
+
 set(SRC_FILES  
     ./src/Main.cpp
-    ./src/VideoCaptureThread.cpp
-    ./src/InferenceThread.cpp
-    ./src/DisplayThread.cpp
-    ./src/ActionThread.cpp
+    ./src/Inference.cpp
+    ./src/Action.cpp
 )
 
 set(LIBS_AND_FLAGS 
