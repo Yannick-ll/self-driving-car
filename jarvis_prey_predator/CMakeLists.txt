@@ -37,9 +37,15 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(OpenCV REQUIRED)
 find_package(onnxruntime REQUIRED)
+find_library(WIRINGPI_LIB wiringPi)
+if(WIRINGPI_LIB)
+    message("FOUND WIRINGPI !!!") 
+endif()
 
 set(INCLUDE_DIRS  
     ./include/
+    ./include/gpio/
+    ./include/motor_control/
     ${OpenCV_DIR}
 )
 
@@ -55,17 +61,26 @@ set(SRC_FILES
     ./src/Main.cpp
     ./src/Inference.cpp
     ./src/Action.cpp
+    ./src/gpio/gpio.cpp
+    ./src/gpio/gpio_pwm.cpp
+    ./src/gpio/gpio_pwm_raspberrypi.cpp
+    ./src/gpio/gpio_raspberrypi.cpp
+    ./src/motor_control/motor_control.cpp
+    ./src/motor_control/servo_control.cpp
 )
 
 set(LIBS_AND_FLAGS 
     ${OpenCV_LIBS}
     ${onnxlib}
+    ${WIRINGPI_LIBRARIES}
+    -lwiringPi
     -lpthread  
     -no-pie
 )
 
 include_directories(
     ${INCLUDE_DIRS}
+    ${WIRINGPI_INCLUDE_DIRS}
     ${onnxinclude}
 )
 
