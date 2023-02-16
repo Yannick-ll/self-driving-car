@@ -33,13 +33,17 @@ public:
     void setJsonAction(const nlohmann::json & jsonAction);
 private:
     nlohmann::json m_jsonAction;
+    //https://raspberrypi.stackexchange.com/questions/61043/raspberry-pi-software-driven-pwm-using-c
+    //18 = 1  // 21 = 29 
+    //23 = 4  // 20 = 28
+    //24 = 5  // 16 = 27
     std::unique_ptr<RaspberryPiGpioPwmPin> pin_pwm_left = std::make_unique<RaspberryPiGpioPwmPin>(1);
     std::unique_ptr<RaspberryPiGpioPin> pin_direction_left_1 = std::make_unique<RaspberryPiGpioPin>(4);
     std::unique_ptr<RaspberryPiGpioPin> pin_direction_left_2 = std::make_unique<RaspberryPiGpioPin>(5);
     
-    std::unique_ptr<RaspberryPiGpioPwmPin> pin_pwm_right = std::make_unique<RaspberryPiGpioPwmPin>(2);
-    std::unique_ptr<RaspberryPiGpioPin> pin_direction_right_1 = std::make_unique<RaspberryPiGpioPin>(6);
-    std::unique_ptr<RaspberryPiGpioPin> pin_direction_right_2 = std::make_unique<RaspberryPiGpioPin>(7);
+    std::unique_ptr<RaspberryPiGpioPwmPin> pin_pwm_right = std::make_unique<RaspberryPiGpioPwmPin>(29);
+    std::unique_ptr<RaspberryPiGpioPin> pin_direction_right_1 = std::make_unique<RaspberryPiGpioPin>(28);
+    std::unique_ptr<RaspberryPiGpioPin> pin_direction_right_2 = std::make_unique<RaspberryPiGpioPin>(27);
     
     PwmMotorControl motor_control_left, motor_control_right;
 };
