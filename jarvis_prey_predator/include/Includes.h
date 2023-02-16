@@ -14,6 +14,9 @@
 #define INCLUDES_H
 
 #include <opencv2/opencv.hpp>
+#include <boost/optional.hpp>
+#include <stdexcept>
+#include <regex>
 #include "json.hpp"
 #include <thread>
 //onnx

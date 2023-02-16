@@ -37,9 +37,9 @@ private:
     std::unique_ptr<RaspberryPiGpioPin> pin_direction_left_1 = std::make_unique<RaspberryPiGpioPin>(4);
     std::unique_ptr<RaspberryPiGpioPin> pin_direction_left_2 = std::make_unique<RaspberryPiGpioPin>(5);
     
-    std::unique_ptr<RaspberryPiGpioPwmPin> pin_pwm_right = std::make_unique<RaspberryPiGpioPwmPin>();
-    std::unique_ptr<RaspberryPiGpioPin> pin_direction_right_1 = std::make_unique<RaspberryPiGpioPin>();
-    std::unique_ptr<RaspberryPiGpioPin> pin_direction_right_2 = std::make_unique<RaspberryPiGpioPin>();
+    std::unique_ptr<RaspberryPiGpioPwmPin> pin_pwm_right = std::make_unique<RaspberryPiGpioPwmPin>(2);
+    std::unique_ptr<RaspberryPiGpioPin> pin_direction_right_1 = std::make_unique<RaspberryPiGpioPin>(6);
+    std::unique_ptr<RaspberryPiGpioPin> pin_direction_right_2 = std::make_unique<RaspberryPiGpioPin>(7);
     
     PwmMotorControl motor_control_left, motor_control_right;
 };
