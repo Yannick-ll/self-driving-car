@@ -4,6 +4,7 @@
  */
 
 #include "Inference.h"
+#include "Movement.h"
 
 Inference::Inference(Ort::Experimental::Session& session, bool &useGPU)
 : m_session(session), useGPU(useGPU) {
@@ -77,16 +78,28 @@ void Inference::startInference() {
                 auto output_tensors = m_session.Run(m_session.GetInputNames(), input_tensors, m_session.GetOutputNames());
                 std::vector<Detection> detections = postprocessing(cv::Size(640, 640), frame.size(), output_tensors, 0.5, 0.45);
                 if (detections.size() > 0) {
+                    Movement movement;
+                    JARVIS::ENUM::EnumCardinalPoint enumCardinalPoint = JARVIS::ENUM::EnumCardinalPoint::CONTINUE;
+                    JARVIS::ENUM::EnumMovement enumMovement = JARVIS::ENUM::EnumMovement::CONTINUE;
+                    float maxConf = 0.0;
                     for (int i = 0; i < detections.size(); ++i) {
                         auto detection = detections[i];
                         //std::cout<< "detection.classId: " << detection.classId << "\n";
                         //std::cout<< "detection.conf: " << detection.conf << "\n";
                         //std::cout<< "detection.box: " << detection.box << "\n";
-                        int whereIsBox = isBondingBoxCentered(class_list, detection, frame);
-                        m_jsonAction = "{\"classId\" : " + std::to_string(detection.get_classId()) + ", \"confidence\" : " +
-                                std::to_string(detection.get_conf()) + ", \"action\" : " + std::to_string(whereIsBox) + "}";
+                        isBondingBoxCentered(class_list, detection, frame,
+                                enumCardinalPoint, enumMovement);
+                        
+                        if(detection.get_conf() > maxConf){
+                            movement.set_detection(detection);
+                            movement.set_enumCardinalPoint(enumCardinalPoint);
+                            movement.set_enumMovement(enumMovement);
+                        }
+                        
+                        //m_jsonAction = "{\"classId\" : " + std::to_string(detection.get_classId()) + ", \"confidence\" : " +
+                        //        std::to_string(detection.get_conf()) + ", \"action\" : " + std::to_string(enumMovement._to_string()) + "}";
                     }
-
+                    m_jsonAction = movement;
 
                     //cv::Mat imageDisplayResized;
                     cv::resize(frame, imageDisplayResized, cv::Size(frame.size().width*scaleWriteVideo, frame.size().height * scaleWriteVideo));
@@ -103,15 +116,8 @@ void Inference::startInference() {
         } else {
             //std::cout << "m_frame.empty()" << std::endl;
         }
-
-
-
-
         timer.start();
     }
-
-
-
     //----------------------------------------------------------------------        
     m_inferenceResult = imageDisplayResized.clone();
     m_jsonResult = m_jsonAction;
@@ -293,8 +299,11 @@ std::vector<std::string> Inference::load_class_list() {
     return class_list;
 }
 
-int Inference::isBondingBoxCentered(const std::vector<std::string> & class_list, const Detection & detection, cv::Mat & image) {
+void Inference::isBondingBoxCentered(const std::vector<std::string> & class_list, const Detection & detection, cv::Mat & image,
+        JARVIS::ENUM::EnumCardinalPoint & enumCardinalPoint, JARVIS::ENUM::EnumMovement & enumMovement) {
     //--
+    enumCardinalPoint = JARVIS::ENUM::EnumCardinalPoint::CONTINUE;
+    enumMovement = JARVIS::ENUM::EnumMovement::CONTINUE;
     cv::Rect box = detection.get_box();
     int classId = detection.get_classId();
     cv::Scalar colorBB = cv::Scalar(0, 255, 255);
@@ -313,15 +322,21 @@ int Inference::isBondingBoxCentered(const std::vector<std::string> & class_list,
     if (center.x <= (size.width + threshX) / 2 &&
             center.x >= (size.width - threshX) / 2) {
         whereIsBox = 0;
+        enumCardinalPoint = JARVIS::ENUM::EnumCardinalPoint::NORTH;
+        enumMovement = JARVIS::ENUM::EnumMovement::FORWARD;
         pointStart = cv::Point(60, 60);
         pointFinish = cv::Point(60, 10);
         colorBB = cv::Scalar(0, 255, 0);
     } else if (center.x < (size.width - threshX) / 2) {
+        enumCardinalPoint = JARVIS::ENUM::EnumCardinalPoint::WEST;
+        enumMovement = JARVIS::ENUM::EnumMovement::FORWARD;
         whereIsBox = -1; // A gauche de l'image
         pointStart = cv::Point(60, 60);
         pointFinish = cv::Point(10, 60);
     } else {
         whereIsBox = 1; // A droite de l'image
+        enumCardinalPoint = JARVIS::ENUM::EnumCardinalPoint::EAST;
+        enumMovement = JARVIS::ENUM::EnumMovement::FORWARD;
         pointStart = cv::Point(60, 60);
         pointFinish = cv::Point(110, 60);
     }
@@ -330,6 +345,7 @@ int Inference::isBondingBoxCentered(const std::vector<std::string> & class_list,
     if (box.width >= size.width / 2 || box.height >= size.height / 2) {
         stopVehicle = true;
         colorBB = cv::Scalar(0, 0, 255);
+        enumMovement = JARVIS::ENUM::EnumMovement::STOP;
     }
     //--
     cv::rectangle(image, box, colorBB, 3);
@@ -347,7 +363,7 @@ int Inference::isBondingBoxCentered(const std::vector<std::string> & class_list,
         cv::putText(image, stopMsg, pointStart, cv::FONT_HERSHEY_COMPLEX, 2.5, colorBB);
     }
 
-    return whereIsBox;
+    //return whereIsBox;
 }
 
 void Inference::setFrame(const cv::Mat& frame) {

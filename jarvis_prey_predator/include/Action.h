@@ -17,6 +17,8 @@
 
 class Action {
 public:
+    Movement movement;
+    
     Action(){
         motor_control_left = PwmMotorControl(std::move(pin_pwm_left),
                                       std::move(pin_direction_left_1),

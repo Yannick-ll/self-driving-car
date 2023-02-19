@@ -50,7 +50,8 @@ public:
     int calculate_product(const std::vector<int64_t> &v);
     std::string print_shape(const std::vector<int64_t> &v);
     std::vector<std::string> load_class_list();
-    int isBondingBoxCentered(const std::vector<std::string> & class_list, const Detection & detection,cv::Mat & image);
+    void isBondingBoxCentered(const std::vector<std::string> & class_list, const Detection & detection,cv::Mat & image,
+        JARVIS::ENUM::EnumCardinalPoint & enumCardinalPoint, JARVIS::ENUM::EnumMovement & enumMovement);
     
     void setFrame(const cv::Mat& frame);
     cv::Mat getInferenceResult();

@@ -19,8 +19,8 @@
 class Detection{
     private:        
         cv::Rect box;
-        float conf;        
-        int classId;
+        float conf = -1;        
+        int classId = -1;
         JARVIS::Point start_point, end_point;
 
     public :

@@ -11,6 +11,7 @@ PwmMotorControl::PwmMotorControl(std::unique_ptr<GpioPwmPin> pin_pwm,
 
 void PwmMotorControl::SetSpeed(int8_t motor_speed)
 {
+    set_motor_speed(motor_speed);
     uint8_t corrected_motor_speed = std::abs(motor_speed);
     corrected_motor_speed = std::min(corrected_motor_speed, (uint8_t) 100U);
 

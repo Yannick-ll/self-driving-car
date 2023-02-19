@@ -41,5 +41,9 @@
 #include <gpio_raspberrypi.h>
 #include <gpio_pwm_raspberrypi.h>
 #include <motor_control.h>
+
+#include "utils/EnumCardinalPoint.h"
+#include "utils/EnumMovement.h"
+#include "Movement.h"
 #endif /* INCLUDES_H */
 
