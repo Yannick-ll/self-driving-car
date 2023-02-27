@@ -60,7 +60,7 @@ set(INCLUDE_DIRS
 set(SRC_FILES  
     ./src/Main.cpp
     ./src/Inference.cpp
-    ./src/Action.cpp
+    ./src/Action_test.cpp
     ./src/gpio/gpio.cpp
     ./src/gpio/gpio_pwm.cpp
     ./src/gpio/gpio_pwm_raspberrypi.cpp

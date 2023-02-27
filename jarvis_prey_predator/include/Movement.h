@@ -18,9 +18,9 @@ class Movement{
         JARVIS::ENUM::EnumCardinalPoint enumCardinalPoint = JARVIS::ENUM::EnumCardinalPoint::CONTINUE;
         JARVIS::ENUM::EnumMovement enumMovement = JARVIS::ENUM::EnumMovement::CONTINUE;
         Detection detection;
-        float seconds;
-        float left_speed;
-        float right_speed;
+        float seconds = 0;
+        float left_speed = 0;
+        float right_speed = 0;
         //float left_speed, right_speed;
         
     public :

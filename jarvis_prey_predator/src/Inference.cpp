@@ -84,8 +84,8 @@ void Inference::startInference() {
                     float maxConf = 0.0;
                     for (int i = 0; i < detections.size(); ++i) {
                         auto detection = detections[i];
-                        //std::cout<< "detection.classId: " << detection.classId << "\n";
-                        //std::cout<< "detection.conf: " << detection.conf << "\n";
+                        std::cout<< "detection.classId: " << detection.get_classId() << "\n";
+                        std::cout<< "detection.conf: " << detection.get_conf() << "\n";
                         //std::cout<< "detection.box: " << detection.box << "\n";
                         isBondingBoxCentered(class_list, detection, frame,
                                 enumCardinalPoint, enumMovement);
