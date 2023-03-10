@@ -12,7 +12,7 @@ int main(int argc, char** argv) {
         useGPU = true;
         std::cout << "Using GPU" << std::endl;
     }
-    std::string model_file = "/home/deploy/app/YOLO/YOLOV5/yolov5-transfer-learning/yolov5/runs/train/exp8/weights/best.onnx" ;//argv[2];
+    std::string model_file = "/home/jarvis/app/self-driving-car/jarvis_prey_predator/model/best.onnx" ;//argv[2];
     
     // onnxruntime setup
     Ort::Env env(ORT_LOGGING_LEVEL_WARNING, "example-model-explorer");
