@@ -19,6 +19,9 @@
 #include <regex>
 #include "json.hpp"
 #include <thread>
+//--
+// Logs
+#include "loguru.hpp"
 //onnx
 #include <iostream>
 #include <fstream>

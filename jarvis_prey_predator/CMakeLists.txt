@@ -67,6 +67,7 @@ set(SRC_FILES
     ./src/gpio/gpio_raspberrypi.cpp
     ./src/motor_control/motor_control.cpp
     ./src/motor_control/servo_control.cpp
+    ./src/loguru.cpp
 )
 
 set(LIBS_AND_FLAGS 
@@ -75,6 +76,7 @@ set(LIBS_AND_FLAGS
     ${WIRINGPI_LIBRARIES}
     -lwiringPi
     -lpthread  
+    -ldl
     -no-pie
 )
 

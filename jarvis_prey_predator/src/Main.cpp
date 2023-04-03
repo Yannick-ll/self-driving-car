@@ -4,6 +4,16 @@
 #include "Action.h"
 
 int main(int argc, char** argv) {
+    int size_model = 320;
+    
+    string model_path = "/home/jarvis/app/self-driving-car/jarvis_prey_predator/model/best.onnx";
+    loguru::init(argc, argv);
+    Config config = {0.50f, 0.45f, model_path, "/home/jarvis/app/jarvis_yolov5/racecar.names", Size(size_model, size_model), false};
+    LOG_F(INFO, "Start main process");
+    Inference inference(config);
+    LOG_F(INFO, "Load model done ..");
+    
+    
     bool useGPU = false;
     std::string l_GpuOption = "CPU" ; //(argv[3]);
     std::transform(l_GpuOption.begin(), l_GpuOption.end(), l_GpuOption.begin(), [](unsigned char c) {
@@ -38,7 +48,7 @@ int main(int argc, char** argv) {
     Ort::Experimental::Session session = Ort::Experimental::Session(env, model_file, session_options); // access experimental components via the Experimental namespace
 
     
-    Inference inference( session, useGPU );
+    //Inference inference;
     Action action;
     
         
@@ -65,7 +75,7 @@ int main(int argc, char** argv) {
         auto startTime = std::chrono::steady_clock::now();
         
         inference.setFrame(image);
-        inference.startInference();
+        inference.start();
         video.write(inference.getInferenceResult().clone());
         action.setJsonAction(inference.getJsonResult());
         action.startAction();        
