@@ -8,6 +8,8 @@ int main(int argc, char** argv) {
     
     string model_path = "/home/jarvis/app/self-driving-car/jarvis_prey_predator/model/best.onnx";
     loguru::init(argc, argv);
+    loguru::add_file("everything.log", loguru::Append, loguru::Verbosity_MAX);
+
     Config config = {0.50f, 0.45f, model_path, "/home/jarvis/app/jarvis_yolov5/racecar.names", Size(size_model, size_model), false};
     LOG_F(INFO, "Start main process");
     Inference inference(config);
@@ -22,31 +24,10 @@ int main(int argc, char** argv) {
         useGPU = true;
         std::cout << "Using GPU" << std::endl;
     }
-    std::string model_file = "/home/jarvis/app/self-driving-car/jarvis_prey_predator/model/best.onnx" ;//argv[2];
     
-    // onnxruntime setup
-    Ort::Env env(ORT_LOGGING_LEVEL_WARNING, "example-model-explorer");
 
-    auto providers = Ort::GetAvailableProviders();
-    std::cout << "Available providers" << std::endl;
-    for (auto provider : providers) {
-        std::cout << provider << std::endl;
-    }
-    Ort::SessionOptions session_options;
-
-    if (useGPU) {
-        OrtCUDAProviderOptions l_CudaOptions;
-        l_CudaOptions.device_id = 0;
-        std::cout << "Before setting session options" << std::endl;
-        session_options.AppendExecutionProvider_CUDA(l_CudaOptions);
-        std::cout << "set session options" << std::endl;
-    } else {
-        // session_options.SetIntraOpNumThreads(12);
-    }
 
     
-    Ort::Experimental::Session session = Ort::Experimental::Session(env, model_file, session_options); // access experimental components via the Experimental namespace
-
     
     //Inference inference;
     Action action;

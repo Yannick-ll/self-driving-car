@@ -124,14 +124,9 @@ public:
     Mat post_process(Mat input_image, vector<Mat> &outputs, std::vector<Detection> & detections, const vector<string> &class_name) ;
     void start();
     
-    void startInference();
     cv::Rect2f scaleCoords(const cv::Size& imageShape, cv::Rect2f coords, const cv::Size& imageOriginalShape, bool p_Clip) ;
     void getBestClassInfo(std::vector<float>::iterator it, const int& numClasses,
             float& bestConf, int& bestClassId);
-    std::vector<Detection> postprocessing(const cv::Size& resizedImageShape,
-            const cv::Size& originalImageShape,
-            std::vector<Ort::Value>& outputTensors,
-            const float& confThreshold, const float& iouThreshold);
     void letterBox(const cv::Mat& image, cv::Mat& outImage,
             const cv::Size& newShape,
             const cv::Scalar& color,

@@ -36,7 +36,7 @@ SET(onnxlib
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(OpenCV REQUIRED)
-find_package(onnxruntime REQUIRED)
+#find_package(onnxruntime REQUIRED)
 find_library(WIRINGPI_LIB wiringPi)
 if(WIRINGPI_LIB)
     message("FOUND WIRINGPI !!!") 

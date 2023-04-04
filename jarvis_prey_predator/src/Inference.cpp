@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/cppFiles/file.cc to edit this template
  */
-#include <opencv4/opencv2/highgui.hpp>
+//#include <opencv4/opencv2/highgui.hpp>
 
 #include "Inference.h"
 #include "Movement.h"
@@ -421,86 +421,6 @@ cv::Mat Inference::createOne(std::vector<cv::Mat> & images, int cols, int min_ga
 }
 
 /******************************************************************************/
-void Inference::startInference() {
-    std::vector<std::string> input_names ;
-    std::vector<std::vector < int64_t>> input_shapes ;
-    nlohmann::json m_jsonAction = "{}";
-    cv::Mat frame = m_frame.clone();
-    cv::Mat imageDisplayResized;
-    float scaleWriteVideo = 0.5;
-    cv::resize(frame, imageDisplayResized, cv::Size(frame.size().width*scaleWriteVideo, frame.size().height * scaleWriteVideo));
-
-    if (timer.elapsedSeconds() > 0.250) {
-        if (!frame.empty()) {
-            //std::cout << "!m_frame.empty()" << std::endl;
-            int l_Number = 1;
-            float *blob = new float[640 * 640 * 3];
-
-            std::cout << "FPS testing" << std::endl;
-            auto startTime = std::chrono::steady_clock::now();
-            for (int count = 0; count < l_Number; count++) {
-                cv::Mat resizedImage, floatImage;
-                cv::cvtColor(frame, resizedImage, cv::COLOR_BGR2RGB);
-                letterBox(resizedImage, resizedImage, cv::Size(640, 640),
-                        cv::Scalar(114, 114, 114), false,
-                        false, true, 32);
-                resizedImage.convertTo(floatImage, CV_32FC3, 1 / 255.0);
-                cv::Size floatImageSize{floatImage.cols, floatImage.rows};
-                std::vector<cv::Mat> chw(floatImage.channels());
-                for (int i = 0; i < floatImage.channels(); ++i) {
-                    chw[i] = cv::Mat(floatImageSize, CV_32FC1, blob + i * floatImageSize.width * floatImageSize.height);
-                }
-                cv::split(floatImage, chw);
-                std::vector<float> inputTensorValues(blob, blob + 3 * floatImageSize.width * floatImageSize.height);
-                std::vector<Ort::Value> input_tensors;
-                input_tensors.push_back(Ort::Experimental::Value::CreateTensor<float>(inputTensorValues.data(), inputTensorValues.size(), input_shapes[0]));
-                //auto output_tensors = m_session.Run(m_session.GetInputNames(), input_tensors, m_session.GetOutputNames());
-                std::vector<Detection> detections ;//= postprocessing(cv::Size(640, 640), frame.size(), output_tensors, 0.5, 0.45);
-                if (detections.size() > 0) {
-                    Movement movement;
-                    JARVIS::ENUM::EnumCardinalPoint enumCardinalPoint = JARVIS::ENUM::EnumCardinalPoint::CONTINUE;
-                    JARVIS::ENUM::EnumMovement enumMovement = JARVIS::ENUM::EnumMovement::CONTINUE;
-                    float maxConf = 0.0;
-                    for (int i = 0; i < detections.size(); ++i) {
-                        auto detection = detections[i];
-                        std::cout<< "detection.classId: " << detection.get_classId() << "\n";
-                        std::cout<< "detection.conf: " << detection.get_conf() << "\n";
-                        //std::cout<< "detection.box: " << detection.box << "\n";
-                        isBondingBoxCentered(class_list, detection, frame,
-                                enumCardinalPoint, enumMovement);
-                        
-                        if(detection.get_conf() > maxConf){
-                            movement.set_detection(detection);
-                            movement.set_enumCardinalPoint(enumCardinalPoint);
-                            movement.set_enumMovement(enumMovement);
-                        }
-                        
-                        //m_jsonAction = "{\"classId\" : " + std::to_string(detection.get_classId()) + ", \"confidence\" : " +
-                        //        std::to_string(detection.get_conf()) + ", \"action\" : " + std::to_string(enumMovement._to_string()) + "}";
-                    }
-                    m_jsonAction = movement;
-
-                    //cv::Mat imageDisplayResized;
-                    cv::resize(frame, imageDisplayResized, cv::Size(frame.size().width*scaleWriteVideo, frame.size().height * scaleWriteVideo));
-                    //cv::imshow("imageDisplayResized", imageDisplayResized);
-                    //cv::waitKey(10);
-                    // // Write the frame into the file 'outcpp.avi'
-                    //video.write(imageDisplayResized);
-                }
-            }
-            auto endTime = std::chrono::steady_clock::now();
-            std::chrono::duration<double> elapsedTime = endTime - startTime;
-            std::cout << "FPS " << l_Number / elapsedTime.count() << std::endl;
-            m_frame = cv::Mat();
-        } else {
-            //std::cout << "m_frame.empty()" << std::endl;
-        }
-        timer.start();
-    }
-    //----------------------------------------------------------------------        
-    m_inferenceResult = imageDisplayResized.clone();
-    m_jsonResult = m_jsonAction;
-}
 
 cv::Rect2f Inference::scaleCoords(const cv::Size& imageShape, cv::Rect2f coords, const cv::Size& imageOriginalShape, bool p_Clip = false) {
     cv::Rect2f l_Result;
@@ -540,72 +460,6 @@ void Inference::getBestClassInfo(std::vector<float>::iterator it, const int& num
     }
 }
 
-std::vector<Detection> Inference::postprocessing(const cv::Size& resizedImageShape,
-        const cv::Size& originalImageShape,
-        std::vector<Ort::Value>& outputTensors,
-        const float& confThreshold, const float& iouThreshold) {
-    std::vector<cv::Rect> boxes;
-    std::vector<cv::Rect> nms_boxes;
-    std::vector<float> confs;
-    std::vector<int> classIds;
-
-    auto* rawOutput = outputTensors[0].GetTensorData<float>();
-    std::vector<int64_t> outputShape = outputTensors[0].GetTensorTypeAndShapeInfo().GetShape();
-    size_t count = outputTensors[0].GetTensorTypeAndShapeInfo().GetElementCount();
-    std::vector<float> output(rawOutput, rawOutput + count);
-
-    // for (const int64_t& shape : outputShape)
-    //     std::cout << "Output Shape: " << shape << std::endl;
-
-    // first 5 elements are box[4] and obj confidence
-    int numClasses = (int) outputShape[2] - 5;
-    int elementsInBatch = (int) (outputShape[1] * outputShape[2]);
-
-    // only for batch size = 1
-    for (auto it = output.begin(); it != output.begin() + elementsInBatch; it += outputShape[2]) {
-        float clsConf = it[4];
-
-        if (clsConf > confThreshold) {
-            float centerX = (it[0]);
-            float centerY = (it[1]);
-            float width = (it[2]);
-            float height = (it[3]);
-            float left = centerX - width / 2;
-            float top = centerY - height / 2;
-
-            float objConf;
-            int classId;
-            getBestClassInfo(it, numClasses, objConf, classId);
-
-            float confidence = clsConf * objConf;
-            cv::Rect2f l_Scaled = scaleCoords(resizedImageShape, cv::Rect2f(left, top, width, height), originalImageShape, true);
-
-            // Prepare NMS filtered per class id's
-            nms_boxes.emplace_back((int) std::round(l_Scaled.x) + classId * 7680, (int) std::round(l_Scaled.y) + classId * 7680,
-                    (int) std::round(l_Scaled.width), (int) std::round(l_Scaled.height));
-            boxes.emplace_back((int) std::round(l_Scaled.x), (int) std::round(l_Scaled.y),
-                    (int) std::round(l_Scaled.width), (int) std::round(l_Scaled.height));
-            confs.emplace_back(confidence);
-            classIds.emplace_back(classId);
-        }
-    }
-
-    std::vector<int> indices;
-    cv::dnn::NMSBoxes(nms_boxes, confs, confThreshold, iouThreshold, indices);
-    // std::cout << "amount of NMS indices: " << indices.size() << std::endl;
-
-    std::vector<Detection> detections;
-
-    for (int idx : indices) {
-        Detection det;
-        det.set_box(boxes[idx]);
-        det.set_conf(confs[idx]);
-        det.set_classId(classIds[idx]);
-        detections.emplace_back(det);
-    }
-
-    return detections;
-}
 
 void Inference::letterBox(const cv::Mat& image, cv::Mat& outImage,
         const cv::Size& newShape = cv::Size(640, 640),
