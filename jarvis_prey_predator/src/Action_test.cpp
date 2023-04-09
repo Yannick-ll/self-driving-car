@@ -17,6 +17,8 @@ void Action::startAction() {
             JARVIS::ENUM::EnumMovement enumMovement = inferenceMovement.get_enumMovement();       
             float left_speed = movement.get_left_speed();
             float right_speed = movement.get_right_speed();
+            float left_direction = 1;
+            float right_direction = 1;
             switch (enumCardinalPoint) {
                 case JARVIS::ENUM::EnumCardinalPoint::NORTH:  
                     std::cout << "North " << std::endl;
@@ -25,18 +27,18 @@ void Action::startAction() {
                     break;
                 case JARVIS::ENUM::EnumCardinalPoint::SOUTH:  
                     std::cout << "South " << std::endl;
-                    left_speed = -50;
-                    right_speed = -50;
+                    left_speed = 50;
+                    right_speed = 50;
                     break;
                 case JARVIS::ENUM::EnumCardinalPoint::EAST:  
                     std::cout << "TURNING right" << std::endl;
-                    left_speed = 50;
+                    left_speed = 1;
                     right_speed = 0;
                     break;
                 case JARVIS::ENUM::EnumCardinalPoint::WEST:  
                     std::cout << "TURNING left" << std::endl;
                     left_speed = 0;
-                    right_speed = 50;
+                    right_speed = 1;
                     break;
                 case JARVIS::ENUM::EnumCardinalPoint::CONTINUE:  
                     break;
@@ -47,18 +49,18 @@ void Action::startAction() {
             switch (enumMovement) {
                 case JARVIS::ENUM::EnumMovement::FORWARD:  
                     std::cout << "FORWARD" << std::endl;
-                    left_speed = 50;
-                    right_speed = 50;
+                    left_direction = 1;
+                    right_direction = 1;
                     break;
                 case JARVIS::ENUM::EnumMovement::BACKWARD:  
                     std::cout << "BACKWARD" << std::endl;
-                    left_speed = -50;
-                    right_speed = -50;
+                    left_direction = -1;
+                    right_direction = -1;
                     break;
                 case JARVIS::ENUM::EnumMovement::STOP: 
                     std::cout << "STOPPING both wheels !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
-                    left_speed = 0;
-                    right_speed = 0;
+                    left_direction = 0;
+                    right_direction = 0;
                     std::cout << "Sleep 10 seconds..." << std::endl;
                     //sleep(10);
                     break;
@@ -67,8 +69,14 @@ void Action::startAction() {
                 default:
                     break;
             }
-            //motor_control_left.SetSpeed(left_speed);
-            //motor_control_right.SetSpeed(right_speed);
+            left_speed = left_speed * left_direction;
+            right_speed = right_speed * right_direction;
+            motor_control_left.SetSpeed(left_speed);
+            motor_control_right.SetSpeed(right_speed);
+            std::string msg = "left speed : " + std::to_string(left_speed);
+            LOG_F(INFO, msg.c_str());
+            msg = "right speed : " + std::to_string(right_speed);
+            LOG_F(INFO, msg.c_str());
             movement.set_left_speed(left_speed);
             movement.set_right_speed(right_speed);            
             

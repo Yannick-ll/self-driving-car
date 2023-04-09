@@ -115,6 +115,9 @@ private:
     Scalar YELLOW = Scalar(0, 255, 255);
     Scalar RED = Scalar(0,0,255);
     
+    std::string message;
+    const float wait_time_between_inference = 1.0;
+    
     //
     //vector<string> class_list;
     Net net;

@@ -300,7 +300,7 @@ void Inference::start(){
     float scaleWriteVideo = 2;
     //cv::resize(frame, imageDisplayResized, cv::Size(frame.size().width*scaleWriteVideo, frame.size().height * scaleWriteVideo));
     cv::resize(frame, frame, this->inSize);
-    if (timer.elapsedSeconds() > 0.250) {
+    if (timer.elapsedSeconds() > wait_time_between_inference) {
         if (!frame.empty()) {
             auto startTime = std::chrono::steady_clock::now();
             
@@ -354,7 +354,9 @@ void Inference::start(){
             }
             auto endTime = std::chrono::steady_clock::now();
             std::chrono::duration<double> elapsedTime = endTime - startTime;
-            std::cout << "ELAPSED time : " << elapsedTime.count() << std::endl;
+            message = "ELAPSED time : " + std::to_string(elapsedTime.count());
+            LOG_F(INFO, message.c_str());
+            //std::cout << "ELAPSED time : " << elapsedTime.count() << std::endl;
             m_frame = cv::Mat();
         }
         timer.start();
