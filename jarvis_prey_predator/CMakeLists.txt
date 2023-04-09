@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 set(APP_NAME jarvis_prey_predator)
 
 set(${APP_NAME}_VERSION_MAJOR 1)
-set(${APP_NAME}_VERSION_MINOR 0)
+set(${APP_NAME}_VERSION_MINOR 1)
 set(${APP_NAME}_VERSION_PATCH 0)
 set(APP_VERSION ${${APP_NAME}_VERSION_MAJOR}.${${APP_NAME}_VERSION_MINOR}.${${APP_NAME}_VERSION_PATCH})
 
@@ -43,32 +43,40 @@ if(WIRINGPI_LIB)
 endif()
 
 set(INCLUDE_DIRS  
-    ./include/
-    ./include/gpio/
-    ./include/motor_control/
+    ./old_includes/
+    ./old_includes/gpio/
+    ./old_includes/motor_control/
     ${OpenCV_DIR}
 )
 
-# set(SRC_FILES  
-#     ./src/Main.cpp
-#     ./src/VideoCaptureThread.cpp
-#     ./src/InferenceThread.cpp
-#     ./src/DisplayThread.cpp
-#     ./src/ActionThread.cpp
-# )
+#set(INCLUDE_DIRS  
+#    ./include/
+#    ./include/gpio/
+#    ./include/motor_control/
+#    ${OpenCV_DIR}
+#)
 
-set(SRC_FILES  
-    ./src/Main.cpp
-    ./src/Inference.cpp
-    ./src/Action_test.cpp
-    ./src/gpio/gpio.cpp
-    ./src/gpio/gpio_pwm.cpp
-    ./src/gpio/gpio_pwm_raspberrypi.cpp
-    ./src/gpio/gpio_raspberrypi.cpp
-    ./src/motor_control/motor_control.cpp
-    ./src/motor_control/servo_control.cpp
-    ./src/loguru.cpp
-)
+ set(SRC_FILES  
+     ./src/main.cpp
+     ./src/VideoCaptureThread.cpp
+     ./src/InferenceThread.cpp
+     ./src/DisplayThread.cpp
+     ./src/ActionThread.cpp
+     ./src/loguru.cpp
+ )
+
+#set(SRC_FILES  
+#    ./src/Main.cpp
+#    ./src/Inference.cpp
+#    ./src/Action_test.cpp
+#    ./src/gpio/gpio.cpp
+##    ./src/gpio/gpio_pwm.cpp
+##    ./src/gpio/gpio_pwm_raspberrypi.cpp
+#    ./src/gpio/gpio_raspberrypi.cpp
+#    ./src/motor_control/motor_control.cpp
+#    ./src/motor_control/servo_control.cpp
+#    ./src/loguru.cpp
+#)
 
 set(LIBS_AND_FLAGS 
     ${OpenCV_LIBS}

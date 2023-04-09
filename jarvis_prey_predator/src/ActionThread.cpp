@@ -8,7 +8,7 @@
 void ActionThread::startAction() {
     while (true) {
         std::unique_lock<std::mutex> lock_frameMutex(m_jsonActionMutex);
-        std::cout << "m_jsonAction : " << m_jsonAction.dump(2) << "\n";
+        //std::cout << "m_jsonAction : " << m_jsonAction.dump(2) << "\n";
         lock_frameMutex.unlock();        
     }
 }
